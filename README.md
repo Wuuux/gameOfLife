@@ -48,11 +48,11 @@ Będziemy ćwiczyć programownie obiektowe, a więc całą naszą grę napiszemy
 Zajrzyj do pliku `index.html`. Znajdziesz tam przygotowane dwie sekcje oraz dwa guziki do obsługi animacji.
 Zajrzyj też do pliku `style.css`, znajdującego się w katalogu css. Znajdziesz tam prototyp pliku ze stylami do naszej gry – każde komórka będzie elementem `<div>` znajdującym się w sekcji `#board`, o szerokości 10px i wysokości 10px. Podepnij plik CSS do dokumentu HTML.
 
-Naszą planszą będzie stworzona i dodana do DOMu za pomocą JavaScriptu odpowiednią ilość divów. W tym celu:
+Naszą planszą wypełnić musimy komórkami – odpowiednią ilość divów, które stworzymy i dodamy do DOMu za pomocą JavaScriptu. W tym celu:
 
 * dodaj do obiektu typu `GameOfLife` atrybut `board` i złap do tej zmiennej odpowiedni element DOMu (sekcję, w której ma się wyświetlić nasza plansza). Użyj metody łapiącej element za pomocą jego `id`.
 * utwórz metodę `createBoard()`, która:
-    * nada sekcji `#board` odpowiednią wysokość i szerokość (na podstawie atrybutu `width` i `height` oraz wielkości pojedynczego diva)
+    * nada sekcji `#board` odpowiednią wysokość i szerokość (nastawiając atrybuty CSS `width` i `height` za pomocą JavaScriptu) – szerokość / wysokość planszy możesz wyliczyć mnożąc atrybut `boardWidth` / `borderHeight` razy szerokość / wysokość jednego diva reprezentującego komórkę
     * zapisze do zmiennej ilość wszystkich pól, które mają się znaleźć na planszy (jako wynik mnożenia atrybutów wysokość i szerokość naszego obiektu)
     * za pomocą pętli stworzy odpowiednią ilość divów i doda je do sekcji `#board`
 
@@ -115,7 +115,7 @@ Musimy więc stworzyć 3 metody:
 * **Generowanie przyszłego stanu komórki**
     * metoda ta powinna sprawdzić wszystkich ośmiu sąsiadów komórki o podanych współrzędnych i policzyć ilu z nich żyje
     * następnie zależnie od tego czy komórka ta jest żywa oraz od tego ilu sąsiadów żyje musimy ustalić jej przyszły stan
-    * jeśli komórka ma być żywa niech nasza funkcja zwraca `0`, w przypadku gdy ma być martwa, niech funkcja zwraca `1`
+    * jeśli komórka ma być żywa niech nasza funkcja zwraca `1`, w przypadku gdy ma być martwa, niech funkcja zwraca `0`
 
 * **Generowanie przyszłego wyglądu naszej planszy**
     * musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb `0` i `1`, a więc tworząc tę zmienną musimy ją zdefiniować jako pustą tablicę
