@@ -48,17 +48,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
     GameOfLife.prototype.computeCellNextState = function(x,y){
       var sum = 0;
-      if (((x-1) >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x-1,y-1).classList.indexOf('live') >= 0)) sum++;
-      if (((x)   >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x,  y-1).classList.indexOf('live') >= 0)) sum++;
-      if (((x+1) <= this.boardWidth-1) && ((y-1) >= 0)                  && (this.cellOfXY(x+1,y-1).classList.indexOf('live') >= 0)) sum++;
-      if (((x-1) >= 0)                 && ((y)   >= 0)                  && (this.cellOfXY(x-1,  y).classList.indexOf('live') >= 0)) sum++;
-      if (((x+1) <= this.boardWidth-1) && ((y)   >= 0)                  && (this.cellOfXY(x+1,  y).classList.indexOf('live') >= 0)) sum++;
-      if (((x-1) >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x-1,y+1).classList.indexOf('live') >= 0)) sum++;
-      if (((x)   >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x,  y+1).classList.indexOf('live') >= 0)) sum++;
-      if (((x+1) <= this.boardWidth-1) && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x+1,y+1).classList.indexOf('live') >= 0)) sum++;
+      if (((x-1) >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x-1,y-1).classList.contains("live"))) sum++;
+      if (((x)   >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x,  y-1).classList.contains("live"))) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y-1) >= 0)                  && (this.cellOfXY(x+1,y-1).classList.contains("live"))) sum++;
+      if (((x-1) >= 0)                 && ((y)   >= 0)                  && (this.cellOfXY(x-1,  y).classList.contains("live"))) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y)   >= 0)                  && (this.cellOfXY(x+1,  y).classList.contains("live"))) sum++;
+      if (((x-1) >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x-1,y+1).classList.contains("live"))) sum++;
+      if (((x)   >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x,  y+1).classList.contains("live"))) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x+1,y+1).classList.contains("live"))) sum++;
 
-      if ((this.cellOfXY(x,y).classList.indexOf('live') >= 0) && (sum < 2)) {};
-      return 'live';
+      if      ( (this.cellOfXY(x,y).classList.contains("live")) && (sum <  2))  {return 0}
+      else if ((!this.cellOfXY(x,y).classList.contains("live")) && (sum == 3))  {return 1}
+      else if ((!this.cellOfXY(x,y).classList.contains("live")) && (sum >  3))  {return 0}
+      else if   (this.cellOfXY(x,y).classList.contains("live"))                 {return 1}
+      else                                                                      {return 0};
     }
 
 
@@ -67,9 +70,15 @@ document.addEventListener("DOMContentLoaded", function(){
     var game = new GameOfLife(80,80);
     game.createBoard();
     game.firstGlider();
-    //console.log(game.cellOfXY(20,0));
-
-
+    console.log(game.computeCellNextState(0,0));
+    console.log(game.computeCellNextState(0,1));
+    console.log(game.computeCellNextState(0,2));
+    console.log(game.computeCellNextState(1,0));
+    console.log(game.computeCellNextState(1,1));
+    console.log(game.computeCellNextState(1,2));
+    console.log(game.computeCellNextState(2,0));
+    console.log(game.computeCellNextState(2,1));
+    console.log(game.computeCellNextState(2,2));
 
 });
 /*
