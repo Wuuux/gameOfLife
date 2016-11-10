@@ -144,8 +144,10 @@ następnie zależnie od tego czy komórka ta jest żywa oraz od tego ilu sąsiad
 jeśli komórka ma być żywa niech nasza funkcja zwraca 1, w przypadku gdy ma być martwa, niech funkcja zwraca 0
 Generowanie przyszłego wyglądu naszej planszy
 
-musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1, a więc tworząc tę zmienną musimy ją zdefiniować jako pustą tablicę
-metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y) – zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
+musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1,
+a więc tworząc tę zmienną musimy ją zdefiniować jako pustą tablicę
+metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y)
+– zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
 ponieważ funkcji computeCellNextState(x, y) musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
 po wykonaniu tej funkcji w zmiennej, którą zdefiniowaliśmy na początku, powinniśmy mieć dokładnie tyle elementów ile mamy komórek na planszy
 Wyświetlanie nowego stanu tablicy
@@ -153,7 +155,8 @@ Wyświetlanie nowego stanu tablicy
 metoda ta powinna przejść po wszystkich komórkach i ustawić im nowy stan bazując na informacjach zapisanych w zmiennej stworzonej w poprzednim kroku
 ponieważ informacje o tym, jaki stan trzeba ustawić mamy w jednowymiarowej tablicy, łatwiej będzie nam tym razem poruszać się po naszej planszy również jako po jednowymiarowej tablicy – którą zapisaliśmy na samym początku do atrybutu tego obiektu o nazwie cells
 pamiętaj, że komórki ożywiamy lub uśmiercamy poprzez dodawanie i usuwanie odpowiedniej klasy
-UWAGA: *żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play, które po kliknięciu pokazuje kolejny krok animacji (czyli printNextGeneration();). *
+UWAGA: *żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play,
+które po kliknięciu pokazuje kolejny krok animacji (czyli printNextGeneration();). *
 
 7. Uruchomienie animacji – guziki play i pause
 
