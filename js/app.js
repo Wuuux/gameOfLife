@@ -4,34 +4,70 @@ document.addEventListener("DOMContentLoaded", function(){
       this.boardWidth  = width;
       this.boardHeight = height;
       this.board = document.getElementById('board');
+      this.cells = [];
+      this.self;
 
     };
 
 
     GameOfLife.prototype.createBoard = function() {
 
+      function live(){
+          this.classList.toggle('live');
+      }
+
       for(var i = 0; i < (this.boardWidth * this.boardHeight); i++){
         var element = document.createElement('div'); //tworzymy nowego Diva
-
         this.board.appendChild(element);
       }
       this.board = document.getElementById('board');
       this.board.style.width  = ""+10*this.boardWidth+"px";
       this.board.style.height = ""+10*this.boardHeight+"px";
       this.cells = document.querySelectorAll('#board div');
-      console.log(this.cells);
       for(var i = 0; i < this.cells.length; i++){
-        this.cells[i].addEventListener('click',function(){
-          element.classList.toggle('live');
-        });
+        this.cells[i].addEventListener('click',live);
       }
     };
 
+    GameOfLife.prototype.cellOfXY = function(x,y) {
+      return this.cells[x+y*this.boardWidth];
+    }
+
+    GameOfLife.prototype.setCellState = function(x, y, state) {
+      if (state=='live')  {this.cellOfXY(x,y).classList.add('live')}
+      else                {this.cellOfXY(x,y).classList.remove('live')}
+    }
+
+    GameOfLife.prototype.firstGlider = function() {
+      this.setCellState(1,0,'live');
+      this.setCellState(2,1,'live');
+      this.setCellState(0,2,'live');
+      this.setCellState(1,2,'live');
+      this.setCellState(2,2,'live');
+    }
+
+    GameOfLife.prototype.computeCellNextState = function(x,y){
+      var sum = 0;
+      if (((x-1) >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x-1,y-1).classList.indexOf('live') >= 0)) sum++;
+      if (((x)   >= 0)                 && ((y-1) >= 0)                  && (this.cellOfXY(x,  y-1).classList.indexOf('live') >= 0)) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y-1) >= 0)                  && (this.cellOfXY(x+1,y-1).classList.indexOf('live') >= 0)) sum++;
+      if (((x-1) >= 0)                 && ((y)   >= 0)                  && (this.cellOfXY(x-1,  y).classList.indexOf('live') >= 0)) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y)   >= 0)                  && (this.cellOfXY(x+1,  y).classList.indexOf('live') >= 0)) sum++;
+      if (((x-1) >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x-1,y+1).classList.indexOf('live') >= 0)) sum++;
+      if (((x)   >= 0)                 && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x,  y+1).classList.indexOf('live') >= 0)) sum++;
+      if (((x+1) <= this.boardWidth-1) && ((y+1) <= this.boardHeight-1) && (this.cellOfXY(x+1,y+1).classList.indexOf('live') >= 0)) sum++;
+
+      if ((this.cellOfXY(x,y).classList.indexOf('live') >= 0) && (sum < 2)) {};
+      return 'live';
+    }
 
 
-    var game = new GameOfLife(40,40);
+    //game START
+
+    var game = new GameOfLife(80,80);
     game.createBoard();
-    console.log(game.boardWidth, game.boardHeight, game.board);
+    game.firstGlider();
+    //console.log(game.cellOfXY(20,0));
 
 
 
@@ -47,60 +83,11 @@ Metoda printNextGeneration, która zastąpi obecny stan wszystkich komórek nowy
 Metody start (w której zawrzemy wszystkie kroki początkowe), play (obsługująca event kliknięcia na button 'play' uruchomieniem animacji) i pause (obsługująca event kliknięcia na button 'pause' zatrzymaniem animacji).
 I tyle! Przejdziemy teraz powoli przez wszystkie kroki, ale jeśli czujesz się na siłach móżesz spróbować napisać tę aplikację tylko na podstawie powyższego skróconego opisu.
 
-1. Przygotowanie pliku z JavaScriptem
 
-W głównym katalogu projektu utwórz katalog o nazwie js. Wewnątrz tego katalogu utwórz plik app.js. Podepnij ten plik do dokumentu HTML. W pliku app.js utwórz obsługę zdarzenia DOMContentLoaded i sprawdź, czy działa.
-2. Tworzenie obiektu zarządzającego grą
-
-Będziemy ćwiczyć programownie obiektowe, a więc całą naszą grę napiszemy jako obiekt GameOfLife(), który będzie zawierał informacje o planszy i metody do zarządzania grą. W tym celu w pliku app.js:
-
-Utwórz konstruktor dla obiektów GameOfLife, który powinien tworzyć naszą grę przyjmując parametry boardWidth i boardHeight. Zdefiniuj mu następujące właściwości:
-width: wartość parametru boardWidth
-height: wartość parametru boardHeight
-Aby przetestować poprawność działania konstruktora zapisz do zmiennej game nowy obiekt typu GameOfLife z dowolnymi parametrami (np. 10, 10). Wypisz na konsoli zmienną game i sprawdź, czy obiekt ten przechowuje podane przez Ciebie wartości.
-Pamiętaj o odpowiednim użyciu słowa kluczowego this wewnątrz obiektu!
-
-2. Budowanie planszy
-
-Zajrzyj do pliku index.html. Znajdziesz tam przygotowane dwie sekcje oraz dwa guziki do obsługi animacji.
-Zajrzyj też do pliku style.css, znajdującego się w katalogu css. Znajdziesz tam prototyp pliku ze stylami do naszej gry
-– każde komórka będzie elementem <div> znajdującym się w sekcji #board, o szerokości 10px i wysokości 10px.
-Podepnij plik CSS do dokumentu HTML.
-
-Naszą planszą wypełnić musimy komórkami – odpowiednią ilość divów, które stworzymy i dodamy do DOMu za pomocą JavaScriptu.
-W tym celu:
-
-dodaj do obiektu typu GameOfLife atrybut board i złap do tej zmiennej odpowiedni element DOMu
-(sekcję, w której ma się wyświetlić nasza plansza). Użyj metody łapiącej element za pomocą jego id.
-utwórz metodę createBoard(), która:
-nada sekcji #board odpowiednią wysokość i szerokość (nastawiając atrybuty CSS width i height za pomocą JavaScriptu)
-– szerokość / wysokość planszy możesz wyliczyć mnożąc atrybut boardWidth / borderHeight razy szerokość / wysokość
-jednego diva
- reprezentującego komórkę
-zapisze do zmiennej ilość wszystkich pól, które mają się znaleźć na planszy (jako wynik mnożenia atrybutów
-wysokość i szerokość naszego obiektu)
-za pomocą pętli stworzy odpowiednią ilość divów i doda je do sekcji #board
-Dzięki zastosowaniu float: left i ograniczeniu szerokości sekcji #board nasza plansza wygląda jak tablica dwuwymiarowa
-(ma wysokość i szerokość), ale tak naprawdę jest jednym ciągiem divów.
-Dla łatwiejszego poruszania się po nich zapiszmy wszystkie te divy do zmiennej. W tym celu:
-
-dodaj do naszego obiektu atrybut this.cells i zdefiniuj go jako pustą tablicę
-w metodzie createBoard(), po stworzeniu i dodaniu wszystkich divów do DOMu, złap je do stworzonej zmiennej
-Podejrzyj plik index.html w przeglądarce. Jeśli wszystko zrobiłeś poprawnie, powinieneś zobaczyć planszę o
-wymiarach zdefiniowanych przez Ciebie przy powoływaniu obiektu typu GameOfLife() do zmiennej game.
-
-3. Ożywianie i uśmiercanie komórek poprzez kliknięcie myszką
-
-Kliknięcie w martwą komórkę powinno ją ożywić i odwrotnie. Zajrzyj jeszcze raz do pliku style.css –
-przygotowaliśmy tam klasę live, która zmienia kolor komórki. Musimy dodać event do wszystkich elementów DOM,
-które są naszymi komórkami. Zrobimy to zaraz po stworzeniu tych elementów. W tym celu:
-
-w metodzie createBoard() przeiteruj się po wszystkich elementach zapisanych do atrybutu this.cells i
-dodaj im event na kliknięcie
-kliknięcie powinno przełączać (dodawać lub odejmować) danemu divowi klasę live
 4. Wskazywanie danej komórki za pomocą współrzędnych x i y
 
-W tym momencie możemy wskazać konkretną komórkę tylko poprzez jej indeks w tablicy this.cells. Jednak komórki mają żyć lub umierać w zależności od swoich sąsiadów, których najlepiej określić jako:
+W tym momencie możemy wskazać konkretną komórkę tylko poprzez jej indeks w tablicy this.cells. Jednak komórki mają żyć lub umierać
+w zależności od swoich sąsiadów, których najlepiej określić jako:
 
 dla komórki o współrzędnych x, y:
 
@@ -112,7 +99,8 @@ dla komórki o współrzędnych x, y:
 6. sąsiad: x-1, y+1
 7. sąsiad: x, y+1
 8. sąsiad: x+1, y+1
-Do obiektu dodaj metodę, która przeliczy współrzędne x i y na indeks tablicy wg. odpowiedniego wzoru. Metoda powinna zwracać element <div> o podanych współrzędnych.
+Do obiektu dodaj metodę, która przeliczy współrzędne x i y na indeks tablicy wg. odpowiedniego wzoru.
+Metoda powinna zwracać element <div> o podanych współrzędnych.
 
 podpowiedź:
 
@@ -120,13 +108,17 @@ indeks = x + y * width
 
 5. Zdefiniowanie stanu początkowego
 
-Aby łatwiej nam było sprawdzać, czy dobrze programujemy naszą animację stwórzmy metodę, która wyświetli nam w lewym górnym rogu planszy glidera. W tym celu:
+Aby łatwiej nam było sprawdzać, czy dobrze programujemy naszą animację stwórzmy metodę, która wyświetli nam w lewym górnym rogu planszy glidera.
+W tym celu:
 
-potrzebna nam będzie metoda setCellState(x, y, state), która komórce o zadanych współrzędnych zmieni stan (na podany w parametrze) za pomocą prostego wyrażenia warunkowego oraz usuwania i dodawania odpowiedniej klasy
+potrzebna nam będzie metoda setCellState(x, y, state), która komórce o zadanych współrzędnych zmieni stan (na podany w parametrze)
+za pomocą prostego wyrażenia warunkowego oraz usuwania i dodawania odpowiedniej klasy
 stwórz metodę firstGlider(), w której ożywisz wybrane przez Ciebie 5 komórek (za pomocą metody setCellState(x, y, 'live')), aby wyświetlić glidera
 6. Kroki programu
 
-Żeby poprawnie zastosować założenia Conwaya, musimy w tym samym momencie zmienić stan wszystkich komórek na nowy (błędem byłoby zmienianie każdej komórki po kolei, bo przed chwilą zmieniona wpływałaby na zmianę kolejnej, jako jej sąsiada). Zaplanujmy więc kroki, które musimy wykonywać, żeby animacja działała poprawnie:
+Żeby poprawnie zastosować założenia Conwaya, musimy w tym samym momencie zmienić stan wszystkich komórek na nowy
+(błędem byłoby zmienianie każdej komórki po kolei, bo przed chwilą zmieniona wpływałaby na zmianę kolejnej, jako jej sąsiada).
+Zaplanujmy więc kroki, które musimy wykonywać, żeby animacja działała poprawnie:
 
 wyliczenie przyszłego stanu komórki o współrzędnych x i y na podstawie jej sąsiadów
 zapisanie do zmiennej (np. nextGeneration) wyliczonych przyszłych stanów wszystkich komórek po kolei
