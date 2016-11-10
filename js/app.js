@@ -148,12 +148,20 @@ computeNextGeneration()
 printNextGeneration()
 
 
+<<<<<<< HEAD
 musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1, a więc tworząc tę zmienną musimy
 ją zdefiniować jako pustą tablicę
 metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y)
 – zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
 ponieważ funkcji computeCellNextState(x, y) musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli
 (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
+=======
+musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1,
+a więc tworząc tę zmienną musimy ją zdefiniować jako pustą tablicę
+metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y)
+– zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
+ponieważ funkcji computeCellNextState(x, y) musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
+>>>>>>> origin/master
 po wykonaniu tej funkcji w zmiennej, którą zdefiniowaliśmy na początku, powinniśmy mieć dokładnie tyle elementów ile mamy komórek na planszy
 Wyświetlanie nowego stanu tablicy
 
