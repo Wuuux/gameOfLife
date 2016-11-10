@@ -10,12 +10,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     GameOfLife.prototype.createBoard = function() {
 
-
       for(var i = 0; i < (this.boardWidth * this.boardHeight); i++){
         var element = document.createElement('div'); //tworzymy nowego Diva
-        }
-        this.board.appendChild(element);
 
+        this.board.appendChild(element);
+      }
       this.board = document.getElementById('board');
       this.board.style.width  = ""+10*this.boardWidth+"px";
       this.board.style.height = ""+10*this.boardHeight+"px";
