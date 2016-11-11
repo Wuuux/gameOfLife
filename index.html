@@ -12,6 +12,7 @@
     <div class="flex-container">
 
         <section id="game-menu">
+            <img src="images/gameoflife.png">
             <button id="play" >graj</button>
             <button id="pause">pauza</button>
         </section>
@@ -21,10 +22,30 @@
 
         <section id="form">
           <form name="game">
-            <img src="images/glider.jpg">
-            <p> Game of Life </p>
-            <p> X: <input type="text" name="x" value = '10'></p>
-            <p> Y: <input type="text" name="y" value = '10'></p>
+
+
+            <p> X:
+              <select name="x">
+                <option>10</option>
+                <option>20</option>
+                <option>40</option>
+                <option>80</option>
+                <option>160</option>
+                <option>240</option>
+                <option>1000</option>
+              </select>
+              Y:
+              <select name="y">
+                <option>10</option>
+                <option>20</option>
+                <option>40</option>
+                <option>80</option>
+                <option>160</option>
+                <option>240</option>
+                <option>1000</option>
+              </select>
+            </p>
+
             <p id="start"> START</p>
           </form>
         </section>

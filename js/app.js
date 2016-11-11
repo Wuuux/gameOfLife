@@ -122,10 +122,11 @@ document.addEventListener("DOMContentLoaded", function(){
             document.getElementsByTagName('button')[0].style.display = 'inline';
             document.getElementsByTagName('button')[1].style.display = 'inline';
             document.getElementById('board').style.display = 'block';
+            document.getElementById('form').style.display = 'none';
 
 
             game.start(x,y);
-            clock = setInterval(myMove, 10);
+            //clock = setInterval(myMove, 10);
           }
 
 
