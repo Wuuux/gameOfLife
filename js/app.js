@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function(){
       }
 
       for(var i = 0; i < (this.boardWidth * this.boardHeight); i++){
-        var element = document.createElement('div'); //tworzymy nowego Diva
+        var element = document.createElement('div');
         this.board.appendChild(element);
       }
       this.board = document.getElementById('board');
-      this.board.style.width  = ""+10*this.boardWidth+"px";
+      this.board.style.width  = ""+10*this.boardWidth +"px";
       this.board.style.height = ""+10*this.boardHeight+"px";
       this.cells = document.querySelectorAll('#board div');
       for(var i = 0; i < this.cells.length; i++){
@@ -89,22 +89,30 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-    //game START
+    //game
     var play  = document.getElementById('play');
     var pause = document.getElementById('pause');
     var start = document.getElementById('start');
     var clock;
+    var playFlag = false;
     var game = new GameOfLife();
+    var gameFlag = false;
     play.addEventListener('click',playGame);
     pause.addEventListener('click',pauseGame);
     start.addEventListener('click',startGame);
 
     function playGame(){
-      clock = setInterval(myMove, 100);
+      if (playFlag == false) {
+        clock = setInterval(myMove, 100);
+        playFlag = true;
+      };
     }
 
     function pauseGame(){
-      clearInterval(clock);
+      if (playFlag == true) {
+        clearInterval(clock);
+        playFlag = false;
+      };
     }
 
     function myMove(){
@@ -113,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function startGame(){
-      if (!gra) {
+      if (!gameFlag) {
         gra = true;
         var form = document.forms['game'];
         var x = parseInt(form.x.value);
@@ -123,77 +131,8 @@ document.addEventListener("DOMContentLoaded", function(){
             document.getElementsByTagName('button')[1].style.display = 'inline';
             document.getElementById('board').style.display = 'block';
             document.getElementById('form').style.display = 'none';
-
-
             game.start(x,y);
-            //clock = setInterval(myMove, 10);
           }
-
-
-
       }
     }
-
-    var gra = false;
-
-
-
-
-
 });
-/*
-
-
-computeCellNextState(x, y)
-computeNextGeneration()
-printNextGeneration()
-
-
-<<<<<<< HEAD
-musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1, a więc tworząc tę zmienną musimy
-ją zdefiniować jako pustą tablicę
-metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y)
-– zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
-ponieważ funkcji computeCellNextState(x, y) musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli
-(uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
-=======
-musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1,
-a więc tworząc tę zmienną musimy ją zdefiniować jako pustą tablicę
-metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą computeCellNextState(x, y)
-– zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
-ponieważ funkcji computeCellNextState(x, y) musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
->>>>>>> origin/master
-po wykonaniu tej funkcji w zmiennej, którą zdefiniowaliśmy na początku, powinniśmy mieć dokładnie tyle elementów ile mamy komórek na planszy
-Wyświetlanie nowego stanu tablicy
-
-metoda ta powinna przejść po wszystkich komórkach i ustawić im nowy stan bazując na informacjach zapisanych w zmiennej stworzonej w poprzednim kroku
-ponieważ informacje o tym, jaki stan trzeba ustawić mamy w jednowymiarowej tablicy, łatwiej będzie nam tym razem poruszać się po naszej
-planszy również jako po jednowymiarowej tablicy – którą zapisaliśmy na samym początku do atrybutu tego obiektu o nazwie cells
-pamiętaj, że komórki ożywiamy lub uśmiercamy poprzez dodawanie i usuwanie odpowiedniej klasy
-UWAGA: *żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play,
-które po kliknięciu pokazuje kolejny krok animacji (czyli printNextGeneration();). *
-
-7. Uruchomienie animacji – guziki play i pause
-
-Ostatnim krokiem jest uruchomienie animacji, czyli ustawienie interwału, który co pewną liczbę milisekund wywoła pojedynczy krok gry.
-Dodaj odpowiedni event do guzika play. Uruchomiony interwał zapisz do zmiennej, aby móc go czyścić po kliknięciu w pause.
-
-UWAGA: O ile dotychczas używaliśmy właściwości i metod obiektu GameOfLife() i odnosiliśmy się do nich używając słowa kluczowego this,
-w tym przypadku nie możemy tego zrobić: wewnątrz eventu lub interwału słowo kluczowe this przyjmuje inną wartość
-i nie wskazuje na obiekt. Aby to ominąć jako atrybut obiektu stwórz zmienną, np. o nazwie self, przypisz do niej wartość this,
-a potem wewnątrz metody obsługującej inetrwał używaj self.
-
-8. Ostatnie poprawki
-
-Jeśli doszedłeś do tego momentu, to znaczy, że twoja gra działa poprawnie. Brawo!
-
-Nie zapomnij, że gra powinna powstawać na podstawie wymyślonych przez użytkownika wartości szerokość i wysokość.
-Twojej inwencji pozostawiamy, jak zapytać użytkownika o te wartości.
-Zapisz te wyniki do zmiennych i użyj ich jako parametrów przy powoływaniu obiektu twojej gry.
-
-Pamiętaj, aby Twój obiekt wykonywał wszystkie niezbędne kroki początkowe (dla porządku możesz zamknąć je w jednej metodzie start()).
-
-Jeśli chcesz, możesz zmienić event za pomocą którego użytkownik ożywia i uśmierca komórki – kliknięcie myszką będzie dokładne,
-ale trudne w użyciu, zamiast tego możesz użyć najechania myszką.
-
-*/
