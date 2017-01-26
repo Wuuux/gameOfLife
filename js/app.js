@@ -91,14 +91,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //game
     var play  = document.getElementById('play');
-    //var pause = document.getElementById('pause');
     var start = document.getElementById('start');
     var clock;
     var playFlag = false;
     var game = new GameOfLife();
     var gameFlag = false;
     play.addEventListener('click',playGame);
-    //pause.addEventListener('click',pauseGame);
     start.addEventListener('click',startGame);
 
     function playGame(){
@@ -116,13 +114,6 @@ document.addEventListener("DOMContentLoaded", function(){
       };
     }
 
-    // function pauseGame(){
-    //   if (playFlag == true) {
-    //     clearInterval(clock);
-    //     playFlag = false;
-    //   };
-    // }
-
     function myMove(){
       game.computeNextGeneration();
       game.printNextGeneration();
@@ -136,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function(){
         var y = parseInt(form.y.value);
         if ((x>=10) && (y>=10)) {
             document.getElementsByTagName('button')[0].style.display = 'inline';
-            //document.getElementsByTagName('button')[1].style.display = 'inline';
             document.getElementById('board').style.display = 'block';
             document.getElementById('form').style.display = 'none';
             game.start(x,y);
